@@ -1,12 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -44,30 +42,11 @@ const Carousel = React.forwardRef<
       plugins
     )
 
-    const [prevBtnDisabled, setPrevBtnDisabled] = React.useState(true)
-    const [nextBtnDisabled, setNextBtnDisabled] = React.useState(true)
-
     React.useEffect(() => {
       if (emblaApi) {
         setApi?.(emblaApi)
       }
     }, [emblaApi, setApi])
-
-    React.useEffect(() => {
-      if (emblaApi) {
-        const onSelect = () => {
-          setPrevBtnDisabled(!emblaApi.canScrollPrev())
-          setNextBtnDisabled(!emblaApi.canScrollNext())
-        }
-
-        emblaApi.on("select", onSelect)
-        onSelect()
-
-        return () => {
-          emblaApi.off("select", onSelect)
-        }
-      }
-    }, [emblaApi])
 
     return (
       <div
